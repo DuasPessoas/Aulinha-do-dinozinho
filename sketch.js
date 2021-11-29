@@ -4,13 +4,19 @@ var lugardopezinho, lugardopezinhochaozinho;
 
 var chaozinhoinvisivel;
 
-var umanuvenzinha;
+var umanuvenzinha, grupodanuvenzinha;
 
 var inuvenzinha;
 
-var b1, b2, b3, b4, b5, b6;
+var b1, b2, b3, b4, b5, b6, grudodosobstaculos;
 
 var pontinho = 0;
+
+var jogandinho = 1;
+
+var naumjogandinho = 0;
+
+var estadoJogandinho = jogandinho;
 
 
 function preload(){
@@ -64,6 +70,10 @@ function setup(){
 
     //console.log("Oi"+5);
 
+    grupodanuvenzinha = new Group();
+
+    grudodosobstaculos = new Group();
+
 }
 
 
@@ -73,31 +83,50 @@ function draw(){
 
     text ("mortinhas:"+pontinho, 501, 51);
 
-    pontinho = pontinho+Math.round(frameCount/60);    
+    if(estadoJogandinho === jogandinho){
+
+        lugardopezinho.velocityX = -2;
+
+        pontinho = pontinho+Math.round(frameCount/60);
+
+        if (lugardopezinho.x < 0){
+
+            lugardopezinho.x = lugardopezinho.width / 2;
+        }
+    
+        if(keyDown("space") && Rexinho.y >= 150){
+    
+            Rexinho.velocityY = -10;
+    
+        }
+
+        Rexinho.velocityY = Rexinho.velocityY + 1;
+
+        nuvenhador();
+
+        geraculador();
+
+        if (grudodosobstaculos.isTouching (Rexinho)){
+
+            estadoJogandinho = naumjogandinho;
+
+        }
+
+    } else if(estadoJogandinho === naumjogandinho){
+
+        lugardopezinho.velocityX = 0;
+
+        grudodosobstaculos.setVelocityXEach (0);
+        
+        grupodanuvenzinha.setVelocityXEach (0);
+
+    }
 
     //console.log (Rexinho.y);
 
     //console.log (frameCount);
-    
-    lugardopezinho.velocityX = -2
-    
-    if (lugardopezinho.x < 0){
-
-        lugardopezinho.x = lugardopezinho.width / 2;
-    }
-
-    if(keyDown("space") && Rexinho.y >= 150){
-
-        Rexinho.velocityY = -10;
-
-    }
-    Rexinho.velocityY = Rexinho.velocityY + 1;
 
     Rexinho.collide(chaozinhoinvisivel);
-
-    nuvenhador();
-
-    geraculador();
 
     drawSprites();
 
@@ -116,6 +145,8 @@ function nuvenhador(){
         umanuvenzinha.depth=Rexinho.depth;
 
         Rexinho.depth=Rexinho.depth+1;
+
+        grupodanuvenzinha.add(umanuvenzinha);
 
         umanuvenzinha.y=Math.round(random(10,101));
 
@@ -160,6 +191,8 @@ function geraculador(){
         }
 
         umobstaculinho.scale = 0.4;
+
+        grudodosobstaculos.add(umobstaculinho);
 
         umobstaculinho.lifetime = 251;
 
