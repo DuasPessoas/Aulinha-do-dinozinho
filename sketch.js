@@ -1,4 +1,4 @@
-var Rexinho, RexinhoCorrendo;
+var Rexinho, RexinhoCorrendo, Morrinho;
 
 var lugardopezinho, lugardopezinhochaozinho;
 
@@ -8,7 +8,7 @@ var umanuvenzinha, grupodanuvenzinha;
 
 var inuvenzinha;
 
-var b1, b2, b3, b4, b5, b6, grudodosobstaculos;
+var b1, b2, b3, b4, b5, b6, grupodosobstaculos;
 
 var pontinho = 0;
 
@@ -18,10 +18,16 @@ var naumjogandinho = 0;
 
 var estadoJogandinho = jogandinho;
 
+var gamiuvir, igamiuvir;
+
+var ristarti, iristarti;
+
 
 function preload(){
 
     RexinhoCorrendo = loadAnimation("trex1.png", "trex3.png", "trex4.png");
+
+    Morrinho = loadAnimation("trex_collided.png");
 
     lugardopezinhochaozinho = loadImage("ground2.png");
 
@@ -39,6 +45,10 @@ function preload(){
 
     b6 = loadImage("obstacle6.png");
 
+    igamiuvir = loadImage ("gameOver.png");
+
+    iristarti = loadImage ("restart.png");
+
 }
 
 
@@ -50,7 +60,21 @@ function setup(){
 
     Rexinho.addAnimation("correndo", RexinhoCorrendo);
 
+    Rexinho.addAnimation("uhu", Morrinho);
+
     Rexinho.scale = 0.5;
+
+    gamiuvir = createSprite (300, 100);
+
+    gamiuvir.addImage (igamiuvir);
+
+    ristarti = createSprite (300, 140);
+
+    ristarti.addImage (iristarti);
+
+    gamiuvir.scale = 0.5;
+
+    ristarti.scale = 0.5;
 
     lugardopezinho= createSprite(200, 180, 400, 20);
 
@@ -72,7 +96,10 @@ function setup(){
 
     grupodanuvenzinha = new Group();
 
-    grudodosobstaculos = new Group();
+    grupodosobstaculos = new Group();
+
+    //Rexinho.debug = true;
+    Rexinho.setCollider("circle", 0,0,35);
 
 }
 
@@ -81,7 +108,7 @@ function draw(){
 
     background("white");
 
-    text ("mortinhas:"+pontinho, 501, 51);
+    text ("pontinhus:"+pontinho, 501, 51);
 
     if(estadoJogandinho === jogandinho){
 
@@ -106,7 +133,7 @@ function draw(){
 
         geraculador();
 
-        if (grudodosobstaculos.isTouching (Rexinho)){
+        if (grupodosobstaculos.isTouching (Rexinho)){
 
             estadoJogandinho = naumjogandinho;
 
@@ -116,7 +143,15 @@ function draw(){
 
         lugardopezinho.velocityX = 0;
 
-        grudodosobstaculos.setVelocityXEach (0);
+        Rexinho.velocityY = 0;
+
+        Rexinho.changeAnimation ("uhu", Morrinho);
+
+        grupodosobstaculos.setLifetimeEach (-1);
+
+        grupodanuvenzinha.setLifetimeEach (-1);
+
+        grupodosobstaculos.setVelocityXEach (0);
         
         grupodanuvenzinha.setVelocityXEach (0);
 
@@ -192,9 +227,9 @@ function geraculador(){
 
         umobstaculinho.scale = 0.4;
 
-        grudodosobstaculos.add(umobstaculinho);
+        grupodosobstaculos.add(umobstaculinho);
 
-        umobstaculinho.lifetime = 251;
+        umobstaculinho.lifetime = 250;
 
 
 
