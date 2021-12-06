@@ -22,6 +22,12 @@ var gamiuvir, igamiuvir;
 
 var ristarti, iristarti;
 
+var pulinho;
+
+var mortinho;
+
+var salvinho;
+
 
 function preload(){
 
@@ -48,6 +54,12 @@ function preload(){
     igamiuvir = loadImage ("gameOver.png");
 
     iristarti = loadImage ("restart.png");
+
+    pulinho = loadSound ("jump.mp3");
+
+    mortinho = loadSound ("die.mp3");
+
+    salvinho = loadSound ("checkPoint.mp3");
 
 }
 
@@ -112,9 +124,13 @@ function draw(){
 
     if(estadoJogandinho === jogandinho){
 
-        lugardopezinho.velocityX = -2;
+        lugardopezinho.velocityX = -(2+pontinho/100);
 
         pontinho = pontinho+Math.round(frameCount/60);
+
+        if (pontinho > 0 && pontinho %100 === 0){
+            salvinho.play ();
+        }
 
         if (lugardopezinho.x < 0){
 
@@ -123,7 +139,9 @@ function draw(){
     
         if(keyDown("space") && Rexinho.y >= 150){
     
-            Rexinho.velocityY = -10;
+            Rexinho.velocityY = -12;
+
+            pulinho.play ();
     
         }
 
@@ -136,6 +154,8 @@ function draw(){
         if (grupodosobstaculos.isTouching (Rexinho)){
 
             estadoJogandinho = naumjogandinho;
+
+            mortinho.play ();
 
         }
 
@@ -198,7 +218,7 @@ function geraculador(){
 
         var umobstaculinho = createSprite (600, 165, 10, 40) ;
 
-        umobstaculinho.velocityX = -6;
+        umobstaculinho.velocityX = -(6+pontinho/100) ;
 
         var v1 = Math.round (random(1,6));
 
