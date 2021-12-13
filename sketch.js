@@ -28,6 +28,8 @@ var mortinho;
 
 var salvinho;
 
+var mensagem = "Isso é uma mensagem";
+
 
 function preload(){
 
@@ -118,15 +120,21 @@ function setup(){
 
 function draw(){
 
+    //console.log(mensagem);
+
     background("white");
 
     text ("pontinhus:"+pontinho, 501, 51);
 
     if(estadoJogandinho === jogandinho){
 
+        gamiuvir.visible = false;
+    
+        ristarti.visible = false;
+
         lugardopezinho.velocityX = -(2+pontinho/100);
 
-        pontinho = pontinho+Math.round(frameCount/60);
+        pontinho = pontinho+Math.round(frameRate()/60);
 
         if (pontinho > 0 && pontinho %100 === 0){
             salvinho.play ();
@@ -167,6 +175,10 @@ function draw(){
 
         Rexinho.changeAnimation ("uhu", Morrinho);
 
+        gamiuvir.visible = true;
+    
+        ristarti.visible = true;
+
         grupodosobstaculos.setLifetimeEach (-1);
 
         grupodanuvenzinha.setLifetimeEach (-1);
@@ -174,6 +186,10 @@ function draw(){
         grupodosobstaculos.setVelocityXEach (0);
         
         grupodanuvenzinha.setVelocityXEach (0);
+
+        if(mousePressedOver(ristarti)){
+            resetador();
+        }
 
     }
 
@@ -185,6 +201,23 @@ function draw(){
 
     drawSprites();
 
+}
+
+function resetador(){
+
+    estadoJogandinho = jogandinho;
+
+    gamiuvir.visible = false;
+
+    ristarti.visible = false;
+
+    grupodanuvenzinha.destroyEach();
+
+    grupodosobstaculos.destroyEach();
+
+    Rexinho.changeAnimation ("correndo", RexinhoCorrendo);
+
+    pontinho = 0;
 }
 
 function nuvenhador(){
